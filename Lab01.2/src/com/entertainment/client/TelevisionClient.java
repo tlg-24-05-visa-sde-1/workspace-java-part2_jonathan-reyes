@@ -3,6 +3,7 @@ package com.entertainment.client;
 import com.entertainment.Television;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 class TelevisionClient {
 
@@ -19,6 +20,8 @@ class TelevisionClient {
 
         Television tvA = new Television("Sony", 50);
         Television tvB = new Television("Sony", 50);
+        Television tvC = new Television("Samsung", 32);
+        Television tvD = new Television("LG", 12);
 
         System.out.println(tvA.hashCode());
         System.out.println(tvB.hashCode());
@@ -30,10 +33,17 @@ class TelevisionClient {
         System.out.println("tvA.equals(tvB): "+ (tvA.equals(tvB)));
         System.out.println();
 
-        Set<Television> tvs = new HashSet<>();
+        Set<Television> tvs = new TreeSet<>();
         tvs.add(tvA);
         tvs.add(tvB);
-        System.out.println("The size of the Set is " + tvs.size());     //should be 1
+        tvs.add(tvC);
+        tvs.add(tvD);
+        System.out.println("The size of the Set is " + tvs.size());     //should be 3- no duplicates
+
+        System.out.println("Tree Order of the Set is ");
+        for (Television tv : tvs) {
+            System.out.println(tv);
+        }
 
     }
 }

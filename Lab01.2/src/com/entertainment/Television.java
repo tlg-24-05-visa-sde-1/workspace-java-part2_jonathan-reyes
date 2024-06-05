@@ -1,9 +1,10 @@
 package com.entertainment;
 
-
 import java.util.Objects;
 
-public class Television {
+/*Natural Order is defined by brand( sort key)*/
+
+public class Television implements Comparable<Television>{
     //fields
     private String brand;
     private int volume;
@@ -45,6 +46,8 @@ public class Television {
         this.volume = volume;
     }
 
+
+
     //from intellij
     @Override
     public boolean equals(Object obj) {
@@ -53,7 +56,7 @@ public class Television {
         if (obj == null || getClass() != obj.getClass()) //check if passed obj is null OR this.class !=objects.class
             return false;
 
-        //downcasting the object to televisoin
+        //downcasting the object to television
         Television that = (Television) obj;
 
         return getVolume() == that.getVolume() &&               //checking the volumes (this.getVolume()==other.volume();
@@ -98,6 +101,12 @@ public class Television {
 
         return result;
     }*/
+
+
+    @Override
+    public int compareTo(Television o1) {
+        return this.getBrand().compareTo(o1.getBrand());
+    }
 
     @Override
     public String toString() {
