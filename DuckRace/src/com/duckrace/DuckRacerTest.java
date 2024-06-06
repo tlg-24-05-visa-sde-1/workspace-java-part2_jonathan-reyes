@@ -1,6 +1,5 @@
 package com.duckrace;
 
-import java.text.CollationElementIterator;
 import java.util.Collection;
 
 class DuckRacerTest {
