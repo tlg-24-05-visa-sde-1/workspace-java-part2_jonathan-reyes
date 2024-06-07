@@ -6,17 +6,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TelevisionChannelComparatorTest {
-    Television tv1;
-    Television tv2;
-    TelevisionChannelComparator tvComparator;
-
-    //you need 3 things in the fixture
-    //tv1
-    //tv2
-    // a comparator
-
-    //in your assertion, you'll call compare() directly
-    //comparator.compare(tv1,tv2)
+    private Television tv1;
+    private Television tv2;
+    private TelevisionChannelComparator tvComparator;
 
     @Before
     public void setUp() {
@@ -26,16 +18,22 @@ public class TelevisionChannelComparatorTest {
     }
 
     @Test
-    public void testShouldReturnTrue_sameChannel() throws InvalidChannelException {
+    public void testShouldReturnZero_sameChannel() throws InvalidChannelException {
         tv1.changeChannel(1);
         tv2.changeChannel(1);
         assertEquals(0,tvComparator.compare(tv1,tv2));
     }
     @Test
-    public void testShouldReturnFalse_differentChannel() throws InvalidChannelException {
+    public void testShouldReturnNonZeroNumber_differentChannel() throws InvalidChannelException {
+        //Postive Number test
+        tv1.changeChannel(50);
+        tv2.changeChannel(1);
+        assertTrue(tvComparator.compare(tv1,tv2)>0);
+
+        //Negative Number test
         tv1.changeChannel(1);
         tv2.changeChannel(50);
-        assertNotEquals(0,tvComparator.compare(tv1,tv2));
+        assertTrue(tvComparator.compare(tv1,tv2)<0);
     }
 
 }

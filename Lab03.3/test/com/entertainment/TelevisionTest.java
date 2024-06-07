@@ -59,6 +59,7 @@ public class TelevisionTest {
         assertEquals(999,tv.getCurrentChannel());
     }
 
+    //Checking InvalidExceptionThrown
     /*@Test(expected = InvalidChannelException.class)
     public void changeChannel_shouldThrowInvalidChannelException_invalidInput_lowerBound()  //checked exception must put throws the exception
     throws InvalidChannelException{
@@ -116,19 +117,49 @@ public class TelevisionTest {
         assertTrue(tv1.compareTo(tv2) < 0);
     }
 
-    //TODO:Hashcode
+
+    /*TestingHashCode*/
     @Test
-    public void testHashCode_shouldReturnEquals_allPropertiesSame() {
+    public void testHashCode_shouldReturnTrue_allPropertiesSame() {
         Television tv1 = new Television("Sony",50,DisplayType.LCD);
         Television tv2 = new Television("Sony",50,DisplayType.LCD);
-        assertEquals(tv1.hashCode(), tv2.hashCode());
+        assertTrue(tv1.equals(tv2));
     }
     @Test
-    public void testHashCode_shouldReturnNotEquals_allPropertiesSame() {
+    public void testHashCode_shouldReturnNotEquals_differentProperties() {
+        Television tv1 = new Television("Sony",50,DisplayType.LCD);
+        Television tv2 = new Television("Apple",50,DisplayType.LCD);
+        Television tv3 = new Television("Sony",75,DisplayType.LCD);
+        Television tv4 = new Television("Sony",50,DisplayType.LED);
+        //Different brand
+        assertNotEquals(tv1.hashCode(), tv2.hashCode());
+        //Different Volume
+        assertNotEquals(tv1.hashCode(), tv3.hashCode());
+        //Different DisplayType
+        assertNotEquals(tv1.hashCode(), tv4.hashCode());
+    }
+
+    /*Testing equals()*/
+    @Test
+    public void testEquals_shouldReturnTrue_allPropertiesSame() {
         Television tv1 = new Television("Sony",50,DisplayType.LCD);
         Television tv2 = new Television("Sony",50,DisplayType.LCD);
-        assertEquals(tv1.hashCode(), tv2.hashCode());
+        assertTrue(tv1.equals(tv2));
     }
+    @Test
+    public void testEquals_shouldReturnFalse_propertiesDiffer() {
+        Television tv1 = new Television("Sony",50,DisplayType.LCD);
+        Television tv2 = new Television("Apple",50,DisplayType.LCD);
+        Television tv3 = new Television("Sony",75,DisplayType.LCD);
+        Television tv4 = new Television("Sony",50,DisplayType.LED);
+        //Different brand
+        assertFalse(tv1.equals(tv2));
+        //Different Volume
+        assertFalse(tv1.equals(tv3));
+        //Different DisplayType
+        assertFalse(tv1.equals(tv4));
+    }
+
     //hashcode comparison
     //assertEquals(tv1.hashCode(), tv2.hashCode())
 
