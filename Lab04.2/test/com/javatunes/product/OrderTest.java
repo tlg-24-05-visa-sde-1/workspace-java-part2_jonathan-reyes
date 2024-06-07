@@ -31,15 +31,20 @@ public class OrderTest {
         mediaCart.addItem(new MediaPlayer("AAC-PL233"));
     }
 
-    /**
-     * TODO: create new Order for each cart above and pass cart to processOrder().
-     *  For example, create three Order objects: "order-1", "order-2", "order-3."
-     *  order-1 is for the contents of productCart,
-     *  order-2 is for the contents of musicCart,
-     *  order-3 is for the contents of mediaCart.
-     */
     @Test
     public void testProcessCart() {
+        Order order1 = new Order("Order-1");
+        order1.processCart(productCart);
+        System.out.println();
 
+        Order order2 = new Order("Order-2");
+        order2.processCart(musicCart);
+        System.out.println();
+
+        Order order3 = new Order("Order-3");
+        order3.processCart(musicCart);
+        System.out.println();
     }
 }
+
+
