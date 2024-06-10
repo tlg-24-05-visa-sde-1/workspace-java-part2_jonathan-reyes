@@ -11,11 +11,11 @@ package gov.irs;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public enum IRSEnum {
+enum IRSEnum implements IRS{
     INSTANCE;
 
     // BUSINESS CODE
-    private Collection<TaxPayer> payers = new ArrayList<>();
+    private final Collection<TaxPayer> payers = new ArrayList<>();
 
     public void collectTaxes() {
         for (TaxPayer payer : payers) {
@@ -28,7 +28,7 @@ public enum IRSEnum {
     }
 
 
-    // constructor - just so we can see when INSTANCE is created
+    /*// constructor - just so we can see when INSTANCE is created, with ENUMS, the constructer is implicetely private
     IRSEnum() {
         System.out.println("--IRSEnum ctor: the instance has been created");
     }
@@ -48,5 +48,5 @@ public enum IRSEnum {
     // if it gets called, IRSEnum.class is loaded and INSTANCE is created (prematurely)
     public static void touch() {
         // no-op
-    }
+    }*/
 }
