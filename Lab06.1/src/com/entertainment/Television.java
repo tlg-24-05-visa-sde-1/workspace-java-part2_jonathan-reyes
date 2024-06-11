@@ -8,6 +8,7 @@
  */
 package com.entertainment;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Television implements Comparable<Television> {
@@ -58,8 +59,7 @@ public class Television implements Comparable<Television> {
     public void setVolume(int volume) throws IllegalArgumentException {
         if (volume >= MIN_VOLUME && volume <= MAX_VOLUME) {
             this.volume = volume;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Invalid volume: " + volume + ". " +
                     "Allowed range: [" + MIN_VOLUME + "," + MAX_VOLUME + "].");
         }
@@ -72,8 +72,7 @@ public class Television implements Comparable<Television> {
     public void changeChannel(int channel) throws InvalidChannelException {
         if (channel >= MIN_CHANNEL && channel <= MAX_CHANNEL) {
             tuner.setChannel(channel);  // delegate to contained Tuner object
-        }
-        else {
+        } else {
             throw new InvalidChannelException("Invalid channel: " + channel + ". " +
                     "Allowed range: [" + MIN_CHANNEL + "," + MAX_CHANNEL + "].");
         }
@@ -106,12 +105,54 @@ public class Television implements Comparable<Television> {
     @Override
     public boolean equals(Object obj) {
         boolean result = false;
-        if (obj instanceof Television) {
-            Television other = (Television) obj;
+        if (obj instanceof Television other) {
             result = Objects.equals(this.getBrand(), other.getBrand()) &&
-                     Objects.equals(this.getVolume(), other.getVolume()) &&
-                     Objects.equals(this.getDisplay(), other.getDisplay());
+                    Objects.equals(this.getVolume(), other.getVolume()) &&
+                    Objects.equals(this.getDisplay(), other.getDisplay());
         }
         return result;
     }
+
+
+    //STATIC NESTED CLASSES - these are all referenced as Television.(dot) something
+    //Outside this class(Television), DisplayType is still visible (its public)
+    //However, its name is now Television.DisplayType
+    public static enum DisplayType {
+        LCD, LED, OLED, PLASMA, CRT
+    }
+    //Outside this class(Television), this is called Television.ChannelComparator
+    public static class ChannelComparator implements Comparator<Television> {
+
+        @Override
+        public int compare(Television tv1, Television tv2) {
+            return Integer.compare(tv1.getCurrentChannel(), tv2.getCurrentChannel());
+        }
+    }
+    //Outside this class(Television), this is called Television.BrandChannelComparator
+    public static class BrandChannelComparator implements Comparator<Television> {
+
+        @Override
+        public int compare(Television tv1, Television tv2) {
+            int result = tv1.getBrand().compareTo(tv2.getBrand());
+
+            if (result == 0) {
+                result = Integer.compare(tv1.getCurrentChannel(), tv2.getCurrentChannel());
+            }
+            return result;
+        }
+    }
+    //MEMBER-LEVEL NAMED INNER CLASSES
+    private class Tuner {
+        private int channel = 3;  // default channel for cable and satellite customers
+
+        public int getChannel() {
+            return this.channel;
+        }
+
+        public void setChannel(int channel) {
+            this.channel = channel;
+        }
+    }
+
+
 }
