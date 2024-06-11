@@ -25,6 +25,23 @@ public class EmployeeFactory {
         // return value
         Employee emp = null;
 
+        String type = inputMap.get("type");
+
+        if( !"HE".equals(type) && !"SE".equals(type)){
+            throw new IllegalArgumentException("Invalid type of employee. Valid types are HE,SE");
+        }
+
+        //DRY principle
+        String name = inputMap.get("name");
+        Date hireDate = Date.valueOf(inputMap.get("hireDate"));
+
+
+        if("HE".equals(type)){
+           emp = new HourlyEmployee(name, hireDate , Double.valueOf(inputMap.get("rate")),Double.valueOf(inputMap.get("hours")));
+        }
+        else{
+            emp  = new SalariedEmployee(name, hireDate ,Double.valueOf(inputMap.get("salary")));
+        }
         return emp;
     }
 }
