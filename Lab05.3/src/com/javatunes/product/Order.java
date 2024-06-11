@@ -8,13 +8,27 @@
  */
 package com.javatunes.product;
 
+import com.javatunes.billing.TaxCalculator;
+import com.javatunes.billing.Location;
+import com.javatunes.billing.TaxCalculatorFactory;
+
 import java.util.Collection;
 
-public class Order {
-    private String id;
 
-    public Order(String id) {
+public class Order {
+    private final String id;
+    private double cost;
+    private final Location location;
+
+    public Order(String id, Location location) {
         this.id = id;
+        this.location = location;
+    }
+
+
+    public double getTax(){
+        TaxCalculator calc = TaxCalculatorFactory.getTaxCalculator(getLocation());
+        return calc.taxAmount(getCost());
     }
 
     /**
@@ -29,7 +43,17 @@ public class Order {
         for (Product product : cartItems) {
             System.out.println(product.getCode());
         }
-        System.out.println("Order Total: " + cart.total());
+        double cartTotal = cart.total();
+        System.out.println("Order Total: " + cartTotal);
+        this.cost = cartTotal;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public String getId() {
