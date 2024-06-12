@@ -1,6 +1,6 @@
 package com.duckrace;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -38,9 +38,42 @@ import java.util.*;
  *   17       17    Dom        1    DEBIT_CARD
  */
 
-public class Board {
+public class Board implements Serializable{
+    private static final String DATA_FILE_PATH = "data/board.dat";
+    private static final String STUDENT_ID_FILE_PATH = "conf/student-ids.csv";
+    /*
+    * Read from binary file data/board.dat or create new Board(if file not there)
+    * NOTE: new board object only created the "very first time" the app is run .
+    */
+    public static Board getInstance() {
+        Board board = null;
+
+        if(Files.exists(Path.of(DATA_FILE_PATH))) {//file exists, read in the file
+            try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATA_FILE_PATH))) {
+                board = (Board) in.readObject();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        else{ // create a new board
+            board = new Board();
+        }
+
+
+        return board;
+    }
+
     private final Map<Integer,String> studentIdMap = loadStudentIdMap();
     private final Map<Integer,DuckRacer> racerMap  = new TreeMap<>();
+
+    //prevent instantiation from outside , if we don't do this then there is one constructor that is freely given by java
+    // and that will be public.
+    private Board(){
+    }
+
+
+
     /*
     Updates the board(racerMap) by making a DuckRace win.
     - could fetch an existing DuckRacer from racerMap,
@@ -58,9 +91,28 @@ public class Board {
             racerMap.put(id,racer);  //easy to forget this step
         }
         racer.win(reward);
+        save();
     }
-/*    This shows the data to the human user
-            we need to show the right side of the map, ideally in an attractive way*/
+
+    /*
+     *  Writes 'this' Board object to binary file data/board.dat
+     *  In more detail, we are using Java's built-in Object Serialization facility
+     *  to write the state of this object to the file
+     */
+
+    private void save() {
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DATA_FILE_PATH))){
+            out.writeObject(this);      //write "me" ( the board object) to the file( as bytes)
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /*    This shows the data to the human user
+                we need to show the right side of the map, ideally in an attractive way*/
     public void show(){
        if(racerMap.isEmpty()){
            System.out.println("There are currently no results to show");
@@ -78,7 +130,6 @@ public class Board {
 
     }
 
-    //TODO: make it pretty , as close to the real board the we show in class as possible
 
 
     //TESTING PURPOSES ONLY
@@ -96,7 +147,7 @@ public class Board {
 
         try {
             //Reading the file creating a list with strings. each slot will be a line in the file
-            List<String> lines = Files.readAllLines(Path.of("conf/student-ids.csv"));
+            List<String> lines = Files.readAllLines(Path.of(STUDENT_ID_FILE_PATH));
             //For each line(String) , we need to split it into "tokens" based on the comma
             for (String line : lines) {
                 String[] tokens = line.split(",");  //the array conceptually will look like : ["1", "Amir"]
