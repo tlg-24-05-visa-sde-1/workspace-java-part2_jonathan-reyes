@@ -5,19 +5,24 @@ public class TaxCalculatorFactory {
 
 
     public static TaxCalculator getTaxCalculator(Location location){
-        TaxCalculator taxCalc = null;
 
-        switch(location){
-            case EUROPE:
-                taxCalc = new EuropeTax();
-                break;
-            case USA:
-                taxCalc = new USATax();
-                break;
+        /*switch(location){
             case ONLINE:
-                taxCalc = new OnlineTax();
+                return new OnlineTax();
+            case USA:
+                return new USATax();
+            case EUROPE:
+                return new EuropeTax();
         }
 
-        return taxCalc;
+        return null;
+*/
+
+        return switch (location) {
+            case EUROPE -> new EuropeTax();
+            case USA -> new USATax();
+            case ONLINE -> new OnlineTax();
+        };
+
     }
 }
