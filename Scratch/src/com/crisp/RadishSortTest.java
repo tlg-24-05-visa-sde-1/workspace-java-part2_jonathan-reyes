@@ -1,6 +1,7 @@
 package com.crisp;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 class RadishSortTest {
@@ -17,19 +18,49 @@ class RadishSortTest {
 
         dump(radishes);
 
-        //sort by natural order ( passing null means natural order)
+        //sort by natural order ( passing null means natural order) - Comparable
         System.out.println("Sort by Natural Order(size)");
         radishes.sort(null);
         dump(radishes);
 
-        System.out.println("Sort by (color) via RadishColorComparator class");
-        radishes.sort(new RadishColorComparator());
+        //Comparator
+        System.out.println("Sort by (color) via anonymous comparator class");
+        //radishes.sort(new RadishColorComparator());
+        radishes.sort(new Comparator<Radish>() {
+            @Override
+            public int compare(Radish r1, Radish r2) {
+                return r1.getColor().compareTo(r2.getColor());
+            }
+        });
         dump(radishes);
 
-        System.out.println("Sort by (guysOnTop) via RadishGuyOnTopComparator class");
-        radishes.sort(new RadishGuysOnTopComparator());
+        System.out.println("Sort by (guysOnTop) via anonymous comparator class");
+        //radishes.sort(new RadishGuysOnTopComparator());
+        radishes.sort(new Comparator<Radish>() {
+            @Override
+            public int compare(Radish r1, Radish r2) {
+                return Double.compare(r1.getGuysOnTop(), r2.getGuysOnTop());
+            }
+        });
         dump(radishes);
 
+        System.out.println("Sort by (size) via anonymous class");
+        radishes.sort(new Comparator<Radish>(){
+                @Override
+                public int compare(Radish r1, Radish r2) {
+                    return Double.compare(r1.getSize(),r2.getSize());
+                }
+        });
+        dump(radishes);
+
+        System.out.println("Sort by (tail length) via anonymous class");
+        radishes.sort(new Comparator<Radish>() {
+            @Override
+            public int compare(Radish r1, Radish r2) {
+                return Double.compare(r1.getTailLength(), r2.getTailLength());
+            }
+        });
+        dump(radishes);
     }
 
     private static void dump(List<Radish> radishes) {
