@@ -47,7 +47,9 @@ public class Department {
      * it will look similar to the workEmployees() method above
      */
     public void payEmployees() {
+        //employees.forEach(emp-> System.out.println(emp));
         employees.forEach(Employee::pay);
+
 
         /*for (Employee emp : employees) {
             emp.pay();
