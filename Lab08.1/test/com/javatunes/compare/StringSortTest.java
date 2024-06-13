@@ -9,12 +9,13 @@
 package com.javatunes.compare;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import org.junit.Test;
 
 public class StringSortTest {
 
-    private List<String> names = Arrays.asList("Jason", "Martin", "Jack", "Mary", "Jill", "Frederick", "Laurie", "Ed");
+    private final List<String> names = Arrays.asList("Jason", "Martin", "Jack", "Mary", "Jill", "Frederick", "Laurie", "Ed"); //remember fixed length, cant add/remove
 
     @Test
     public void testStringListSort() {
@@ -29,9 +30,15 @@ public class StringSortTest {
         names.sort(new StringLengthComparator());
         System.out.println(names + "\n");
 
+
         System.out.println("Increasing length - lambda:");
-        // TODO: call names.sort() and pass in an "expression" lambda
-        // hint: a compatible lambda will have this form:
-        //       (obj1, obj2) -> expression-that-evaluates-to-int
+        names.sort((str1,str2)->Integer.compare(str1.length(),str2.length()));
+        System.out.println(names + "\n");
+
+        //flipping the name causes a decrease in the order
+        System.out.println("Decreasing length - lambda:");
+        names.sort((str1,str2)->Integer.compare(str2.length(), str1.length()));
+        System.out.println(names + "\n");
+
     }
 }
