@@ -8,4 +8,6 @@ class RadishColorComparator implements Comparator<Radish> {
     public int compare(Radish r1, Radish r2) {
         return r1.getColor().compareTo(r2.getColor());
     }
+
+    //the lambda would be (r1,r2)-> r1.getColor().compareTo(r2.getColor());
 }

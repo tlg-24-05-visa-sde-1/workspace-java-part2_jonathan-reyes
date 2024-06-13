@@ -8,4 +8,6 @@ class RadishGuysOnTopComparator implements Comparator <Radish>{
 
         return Integer.compare(r1.getGuysOnTop(), r2.getGuysOnTop());
     }
+
+    //the lambda would be (r1,r2)-> Integer.compare(r1.getGuysOnTop(), r2.getGuysOnTop());
 }
